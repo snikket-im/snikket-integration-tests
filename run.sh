@@ -16,7 +16,7 @@ for device_config in devices/*.json; do
 	  --caps-file="${CONFIG_DIR}/browserstack-auth.json" \
 	  --caps-file="$device_config" \
 	  --cap browserstack.appium_version=1.17.0 \
-	  --cap project="$(basename "$PWD")" \
+	  --cap project="${BUILD_PROJECT-$(basename "$PWD")}" \
 	  --cap build="Build $BUILD_NUM" \
 	  --cap name="$(basename "${device_config%.json}")" \
 	  --cap app="SnikketFDroid" \
