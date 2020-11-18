@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -xeo pipefail
+set -eo pipefail
 
 CONFIG_DIR="${CONFIG_DIR-/etc/snikket-integration-tests}"
 
