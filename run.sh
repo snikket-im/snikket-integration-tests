@@ -19,7 +19,7 @@ for device_config in devices/*.json; do
 	  --cap project="${BUILD_PROJECT-$(basename "$PWD")}" \
 	  --cap build="Build $BUILD_NUM" \
 	  --cap name="$(basename "${device_config%.json}")" \
-	  --cap app="SnikketFDroid" \
+	  --cap app="${BUILD_APP_ID-SnikketFDroid}" \
 	  "$DOMAIN" "$INVITES_API_KEY"; then
 		echo "TEST FAIL: $device_config"
 		ALL_OK=0;
