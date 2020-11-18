@@ -1,0 +1,4 @@
+{
+  "browserstack.user": "<username>",
+  "browserstack.key": "<access key>"
+}
