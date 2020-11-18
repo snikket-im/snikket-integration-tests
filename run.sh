@@ -10,6 +10,7 @@ INVITES_API_KEY=$(cat invites-api-key)
 
 ALL_OK=1
 for device_config in devices/*.json; do
+	echo "Running test for $device_config..."
 	if ! ./tests/snikket-android.py \
 	  --driver-url=https://hub-cloud.browserstack.com/wd/hub \
 	  --caps-file="${CONFIG_DIR}/browserstack-auth.json" \
@@ -20,7 +21,10 @@ for device_config in devices/*.json; do
 	  --cap name="$(basename "${device_config%.json}")" \
 	  --cap app="SnikketFDroid" \
 	  "$DOMAIN" "$INVITES_API_KEY"; then
+		echo "TEST FAIL: $device_config"
 		ALL_OK=0;
+	else
+		echo "TEST PASS: $device_config"
 	fi
 done
 
