@@ -50,8 +50,10 @@ def randomword(length):
 	return ''.join(random.choice(letters) for i in range(length))
 
 def get_invite_uri():
+	print("Creating invite...")
 	r = requests.get("https://%s/invites_api?key=%s" % (args.domain, invite_key))
 	assert r.status_code == 201
+	print("Invite created")
 	return "xmpp:%s?register;preauth=%s" % (args.domain, r.headers["location"].split("?")[1])
 
 class Client:
