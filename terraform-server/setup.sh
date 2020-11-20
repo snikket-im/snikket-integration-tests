@@ -37,7 +37,8 @@ services:
       - "/var/lib/snikket:/snikket"
       - acme_challenges:/var/www/.well-known/acme-challenge
     restart: "unless-stopped"
-  snikket:
+  snikket_server:
+    container_name: snikket
     image: ${tf_container_repo}/snikket:${tf_version}
     network_mode: host
     volumes:
