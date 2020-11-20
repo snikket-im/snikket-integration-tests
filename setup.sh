@@ -23,7 +23,7 @@ terraform apply \
 
 popd
 
-while sleep 15 && ! curl -so/dev/null "https://${DOMAIN}/"; do
+while sleep 15 && ! curl -fso/dev/null "https://${DOMAIN}/"; do
   echo "Waiting for Snikket to become available...";
 done
 
