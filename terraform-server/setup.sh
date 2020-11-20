@@ -22,14 +22,32 @@ tee docker-compose.yml <<EOF
 version: "3.3"
 
 services:
-  snikket:
-    container_name: snikket
-    image: snikket/snikket:${tf_version}
+  snikket_web:
+    image: ${tf_container_repo}/snikket-web-proxy:${tf_version}
     env_file: snikket.conf
-    restart: unless-stopped
     network_mode: host
     volumes:
       - "/var/lib/snikket:/snikket"
+      - acme_challenges:/usr/share/nginx/html/.well-known/acme-challenge
+    restart: "unless-stopped"
+  snikket_certs:
+    image: ${tf_container_repo}/snikket-cert-manager:${tf_version}
+    env_file: snikket.conf
+    volumes:
+      - "/var/lib/snikket:/snikket"
+      - acme_challenges:/var/www/.well-known/acme-challenge
+    restart: "unless-stopped"
+  snikket:
+    image: ${tf_container_repo}/snikket:${tf_version}
+    network_mode: host
+    volumes:
+      - "/var/lib/snikket:/snikket"
+    env_file: snikket.conf
+    restart: "unless-stopped"
+
+volumes:
+  acme_challenges:
+
 EOF
 
 tee snikket.conf <<EOF

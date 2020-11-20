@@ -40,11 +40,12 @@ data "template_cloudinit_config" "config" {
   part {
     content_type = "text/x-shellscript"
     content = templatefile("setup.sh", {
-      tf_version       = var.snikket_version
-      tf_domain        = var.domain
-      tf_admin_email   = var.admin_email
-      tf_config_secret = var.config_secret
-      tf_certs_bucket  = var.certs_bucket
+      tf_version        = var.snikket_version
+      tf_container_repo = var.snikket_container_repo
+      tf_domain         = var.domain
+      tf_admin_email    = var.admin_email
+      tf_config_secret  = var.config_secret
+      tf_certs_bucket   = var.certs_bucket
 
       tf_import_test_data = var.import_test_data
     })
