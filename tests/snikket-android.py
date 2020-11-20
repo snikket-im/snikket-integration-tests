@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sys
 from appium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait as wait
 
@@ -165,5 +166,6 @@ def main():
 		report_status(snikket1.driver.session_id, success, reason)
 		print("Finishing...")
 		snikket1.quit()
+		return 0 if success else 1
 
-main()
+sys.exit(main())
