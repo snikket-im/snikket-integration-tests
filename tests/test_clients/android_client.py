@@ -1,3 +1,6 @@
+from appium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait as wait
+
 class AndroidClient:
 	def __init__(self, driver_url, caps, default_id_prefix=""):
 		self.caps = caps
