@@ -34,12 +34,16 @@ invite_key = args.invite_key
 
 caps = {}
 
+def add_caps_from_file(current_caps, caps_filename):
+	with open(caps_filename, 'r') as caps_file:
+		new_caps = json.loads(caps_file.read())
+		for cap_name in new_caps:
+			current_caps[cap_name] = new_caps[cap_name]
+
+
 if args.caps_files:
 	for caps_filename in args.caps_files:
-		with open(caps_filename, 'r') as caps_file:
-			new_caps = json.loads(caps_file.read())
-			for cap_name in new_caps:
-				caps[cap_name] = new_caps[cap_name]
+		add_caps_from_file(caps, caps_filename)
 
 if args.caps:
 	for cap_entry in args.caps:
@@ -57,7 +61,7 @@ def get_invite_uri():
 	print("Invite created")
 	return "xmpp:%s?register;preauth=%s" % (args.domain, r.headers["location"].split("?")[1])
 
-class Client:
+class AndroidClient:
 	def __init__(self, driver_url, caps, default_id_prefix=""):
 		self.caps = caps
 		self.driver = webdriver.Remote(driver_url, caps)
@@ -98,11 +102,11 @@ class Client:
 			self.driver = None
 
 
-class SnikketClient(Client):
+class SnikketClient(AndroidClient):
 	def __init__(self, driver_url, caps):
 		caps["appWaitActivity"] = "eu.siacs.conversations.ui.WelcomeActivity"
 		self.android_version = tuple(map(int, caps["os_version"].split(".")))
-		return Client.__init__(self, driver_url, caps, "org.snikket.android:id/")
+		return AndroidClient.__init__(self, driver_url, caps, "org.snikket.android:id/")
 
 	def start(self, invite_uri):
 		self.driver.start_activity("org.snikket.android", "eu.siacs.conversations.ui.UriHandlerActivity",
