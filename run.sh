@@ -9,7 +9,7 @@ DOMAIN="${TEST_NAME}.test.snikket.dev"
 INVITES_API_KEY=$(cat invites-api-key)
 
 ALL_OK=1
-for device_config in devices/*.json; do
+for device_config in devices/android/*.json; do
 	echo "Running test for $device_config..."
 	if ! ./tests/snikket-android.py \
 	  --driver-url=https://hub-cloud.browserstack.com/wd/hub \
