@@ -71,7 +71,6 @@ class SnikketAndroidClient(AndroidClient):
 		self.type("search_field", jid)
 		self.tap("contact_display_name")
 		self.logger.debug("Opened "+jid)
-		self.logger.debug("Source: %s", self.get_view_source())
 		if public:
 			self.logger.debug("Accepting warning about public JID...")
 			self.tap("snackbar_action")
@@ -89,22 +88,27 @@ class SnikketAndroidClient(AndroidClient):
 
 	# From conversation view, open contact details
 	def open_contact_details(self):
+		self.logger.debug("Opening contact details...")
 		self.menu_button()
 		# Fragile, assumes 'Contact details' is always first menu entry
 		self.driver.find_elements(By.ID, "org.snikket.android:id/title")[0].click()
 
 	# From main screen, open settings
 	def open_settings(self):
+		self.logger.debug("Opening settings...")
 		self.menu_button()
 		# Fragile, assumes 'Settings' is 4th menu entry
 		self.driver.find_elements(By.ID, "org.snikket.android:id/title")[2].click()
 
 	def account_set_name(self, name):
+		self.logger.debug("Setting my display name...")
 		self.tap("action_edit_your_name")
 		self.type("input_edit_text", name)
 		self.tap("android:id/button1")
+		self.logger.debug("Set!")
 
 	def account_show_server_info(self):
+		self.logger.debug("Enabling 'Show server info' checkbox")
 		# Open menu
 		self.menu_button()
 		# Fragile!
@@ -112,12 +116,15 @@ class SnikketAndroidClient(AndroidClient):
 
 	# From main screen, open 'Manage accounts'
 	def open_manage_accounts(self):
+		self.logger.debug("Opening 'Manage accounts'...")
+
 		self.menu_button()
 		# Fragile, assumes 'Manage accounts' is 3rd menu entry
 		self.driver.find_elements(By.ID, "org.snikket.android:id/title")[2].click()
 
 	# From 'Manage accounts' open first account
 	def open_account(self):
+		self.logger.debug("Selecting first account...")
 		self.tap("account_jid")
 
 	def wait_for_new_chat_and_open(self, name, timeout=180):
