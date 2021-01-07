@@ -60,6 +60,9 @@ SNIKKET_DOMAIN=${tf_domain}
 # (also used to register your Let's Encrypt account to obtain certificates)
 SNIKKET_ADMIN_EMAIL=${tf_admin_email}
 
+# Enable features used for integration testing
+SNIKKET_TWEAK_TEST_MODE=1
+
 EOF
 
 # Install service to save/restore certificates
