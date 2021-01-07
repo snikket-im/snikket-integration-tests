@@ -114,7 +114,7 @@ class SnikketAndroidClient(AndroidClient):
 	def open_manage_accounts(self):
 		self.menu_button()
 		# Fragile, assumes 'Manage accounts' is 3rd menu entry
-		self.driver.find_elements(By.ID, "org.snikket.android:id/title")[1].click()
+		self.driver.find_elements(By.ID, "org.snikket.android:id/title")[2].click()
 
 	# From 'Manage accounts' open first account
 	def open_account(self):
