@@ -1,0 +1,10 @@
+{
+  "browserName": "",
+  "appiumVersion": "1.19.1",
+  "deviceName": "iPhone 11 Simulator",
+  "deviceOrientation": "portrait",
+  "platformVersion": "13.4",
+  "platformName": "iOS",
+  "autoWebview": false,
+  "app": "storage:dbd8472c-98a3-4106-a732-ef9917b3b433"
+}
