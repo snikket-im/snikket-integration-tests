@@ -28,7 +28,7 @@ services:
     network_mode: host
     volumes:
       - "/var/lib/snikket:/snikket"
-      - acme_challenges:/usr/share/nginx/html/.well-known/acme-challenge
+      - acme_challenges:/var/www/html/.well-known/acme-challenge
     restart: "unless-stopped"
   snikket_certs:
     image: ${tf_container_repo}/snikket-cert-manager:${tf_version}
