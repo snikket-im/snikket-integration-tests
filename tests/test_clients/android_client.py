@@ -1,22 +1,14 @@
-from appium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait as wait
+from .generic_client import GenericClient
 
-class AndroidClient:
-	def __init__(self, driver_url, caps, default_id_prefix=""):
-		self.caps = caps
-		self.driver = webdriver.Remote(driver_url, caps)
+class AndroidClient(GenericClient):
+	def __init__(self, provider, caps, default_id_prefix="", logger = None):
 		self.id_prefix = default_id_prefix
-
-	def __del__(self):
-		self.quit()
-
-	def wait(self, seconds):
-		return wait(self.driver, seconds)
+		return GenericClient.__init__(self, provider, caps, logger = logger)
 
 	def wait_for(self, el_id, timeout=10):
 		if not ':id/' in el_id:
 			el_id = self.id_prefix + el_id
-		return self.wait(timeout).until(lambda x: x.find_element_by_id(el_id))
+		return GenericClient.wait_for(self, el_id, timeout=timeout)
 
 	def type(self, el_id, text):
 		self.wait_for(el_id)
@@ -28,6 +20,7 @@ class AndroidClient:
 		el = self.driver.find_element_by_id(el_id if ':id/' in el_id else (self.id_prefix+el_id))
 		el.click()
 
+	# Android-only methods
 	def nav_back(self):
 		self.wait(10).until(lambda x: x.find_element_by_accessibility_id('Navigate up'))
 		el = self.driver.find_element_by_accessibility_id('Navigate up')
@@ -36,7 +29,12 @@ class AndroidClient:
 	def back_button(self):
 		self.driver.press_keycode(4)
 
-	def quit(self):
-		if self.driver:
-			self.driver.quit()
-			self.driver = None
+	def menu_button(self):
+		self.driver.press_keycode(82)
+
+	def page_up(self):
+		self.driver.press_keycode(92)
+
+	def page_down(self):
+		self.driver.press_keycode(93)
+
