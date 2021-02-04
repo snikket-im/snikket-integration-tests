@@ -27,6 +27,6 @@ while sleep 15 && ! curl -fso/dev/null "https://${DOMAIN}/"; do
   echo "Waiting for Snikket to become available...";
 done
 
-INVITES_API_KEY=$(curl -s "https://${DOMAIN}/api-key-${CONFIG_SECRET}")
+INVITES_API_KEY=$(curl -s "https://${DOMAIN}/static/api-key-${CONFIG_SECRET}")
 
 echo "$INVITES_API_KEY" > invites-api-key
