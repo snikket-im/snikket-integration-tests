@@ -1,4 +1,4 @@
-import random, string
+import random, string, re
 from collections import namedtuple
 import requests
 try:
@@ -30,23 +30,33 @@ def generate_random_password():
 
 def get_new_invite_url(domain, invite_key):
 	r = requests.get("https://%s/invites_api?key=%s" % (domain, invite_key))
+	print("https://%s/invites_api?key=%s" % (domain, invite_key))
+	if r.status_code != 201:
+		print(r.status_code)
 	assert r.status_code == 201
 	return r.headers["location"]
 
 def get_new_invite_token(domain, invite_key):
-	return get_new_invite_url(domain, invite_key).split("?")[1]
+	return get_new_invite_url(domain, invite_key).split("/")[4]
 
 def get_new_invite_uri(domain, invite_key):
 	return "xmpp:%s?register;preauth=%s" % (domain, get_new_invite_token(domain, invite_key))
 
 def get_new_account(username, domain, invite_key):
 	password = generate_random_password()
-	url = get_new_invite_url(domain, invite_key).replace("/invite", "/register")
-	token = url.split("?")[1]
-	r = requests.post(url, data = {
-		'user': username,
+	url = get_new_invite_url(domain, invite_key) + '/register'
+	invite_page = requests.get(url)
+	csrf_token = re.search(
+		r'name="csrf_token" type="hidden" value="([^"]*)"',
+		invite_page.text,
+		re.M
+	).group(1)
+	token = url.split("/")[4]
+	r = requests.post(url, cookies=invite_page.cookies, data = {
+		'csrf_token': csrf_token,
+		'localpart': username,
 		'password': password,
-		'token': token
+		'password_confirm': password
 	})
 	assert r.status_code == 200
 	return Account(username, username+"@"+domain, password)
