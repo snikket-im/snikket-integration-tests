@@ -43,7 +43,10 @@ class SnikketIOSClient(IOSClient):
 	def send_message(self, text):
 		self.logger.debug("Sending message: %s", text)
 		self.driver.find_element_by_class_name("XCUIElementTypeTextView").send_keys(text)
-		self.tap("paperplane.fill")
+		if self.get_ios_version() <= 13:
+			self.tap("paperplane.fill")
+		else:
+			self.tap("send")
 
 	def wait_for_message(self, username):
 		self.logger.debug("Waiting for message from %s", username)
