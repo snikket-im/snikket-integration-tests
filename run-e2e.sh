@@ -3,7 +3,7 @@
 set -eo pipefail
 
 CONFIG_DIR="${CONFIG_DIR-/etc/snikket-integration-tests}"
-DOMAIN="dev.test.snikket.dev"
+DOMAIN="${DOMAIN-dev.test.snikket.dev}"
 INVITES_API_KEY=$(cat invites-api-key)
 
 ALL_OK=1
