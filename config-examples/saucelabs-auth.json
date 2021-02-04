@@ -1,0 +1,4 @@
+{
+  "saucelabs.user": "<username>",
+  "saucelabs.key": "<access key>"
+}
