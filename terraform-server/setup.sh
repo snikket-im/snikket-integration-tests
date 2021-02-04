@@ -111,4 +111,5 @@ fi
 docker-compose up -d
 
 # Generate invite API key and publish it at the SECRET location
-docker exec -t snikket bash -c "prosodyctl mod_invites_api $DOMAIN create > /var/www/api-key-$CONFIG_SECRET"
+docker exec -t snikket bash -c "prosodyctl mod_invites_api $DOMAIN create" \
+  | docker exec -t snikket-proxy bash -c "tee /var/www/html/static/api-key-$CONFIG_SECRET"
