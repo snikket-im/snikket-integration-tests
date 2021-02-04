@@ -23,6 +23,7 @@ version: "3.3"
 
 services:
   snikket_portal:
+    container_name: snikket-portal
     image: ${tf_container_repo}/snikket-web-portal:${tf_version}
     env_file: snikket.conf
     network_mode: host
@@ -31,6 +32,7 @@ services:
       - acme_challenges:/var/www/html/.well-known/acme-challenge
     restart: "unless-stopped"
   snikket_proxy:
+    container_name: snikket-proxy
     image: ${tf_container_repo}/snikket-web-proxy:${tf_version}
     env_file: snikket.conf
     network_mode: host
@@ -39,6 +41,7 @@ services:
       - acme_challenges:/var/www/html/.well-known/acme-challenge
     restart: "unless-stopped"
   snikket_certs:
+    container_name: snikket-certs
     image: ${tf_container_repo}/snikket-cert-manager:${tf_version}
     env_file: snikket.conf
     volumes:
