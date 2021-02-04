@@ -41,6 +41,10 @@ class GenericClient():
 	def report_result(self, success, reason=None):
 		return self.provider.report(self.driver.session_id, success, reason)
 
+	def save_screenshot(self, filename):
+		self.driver.get_screenshot_as_file(filename)
+		self.logger.debug("Saved screenshot: " + filename)
+
 	def quit(self):
 		if hasattr(self, 'driver') and self.driver != None:
 			self.logger.debug("Quitting")
