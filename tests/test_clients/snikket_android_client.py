@@ -91,6 +91,14 @@ class SnikketAndroidClient(AndroidClient):
 			self.tap("snackbar_action")
 			self.logger.debug("Accepted")
 
+	def join_public_channel(self, jid):
+		self.logger.debug("Joining public groupchat %s", jid)
+		self.tap("fab")
+		self.tap("speed_dial")
+		self.tap("join_public_channel")
+		self.type("jid", jid)
+		self.tap("android:id/button1")
+
 	def wait_for_message(self, contact_username):
 		self.logger.debug("Waiting for message from %s", contact_username)
 		self.wait(160).until(expect.text_to_be_present_in_element((By.ID, "org.snikket.android:id/conversation_name"), contact_username))
