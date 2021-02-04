@@ -54,6 +54,21 @@ class SnikketAndroidClient(AndroidClient):
 		self.logger.debug("Main screen reached!")
 		self.dismiss_notification()
 
+		self.logger.debug("Leaving 'Start Conversation...' screen...")
+		# Exit "Start Conversation..." screen
+		self.back_button()
+		self.logger.debug("Done")
+
+		try:
+			self.logger.debug("Dismissing battery optimization warning...")
+			# Wait for battery optimizations warning
+			self.wait_for("alertTitle")
+			# Dismiss
+			self.back_button()
+			self.logger.debug("Dismissed.")
+		except:
+			self.logger.debug("Not found. Continuing...")
+
 	def dismiss_notification(self):
 		self.logger.debug("Swiping away notification")
 		self.driver.swipe(50, 100, 500, 100)

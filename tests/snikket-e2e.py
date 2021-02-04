@@ -109,8 +109,6 @@ def run_android_tests(client, params):
 	client.logger.info("Running Android tests...")
 	invite_uri = get_new_invite_uri(params["domain"], params["invite_key"])
 	client.start(invite_uri, params["username"])
-	# Exit "Start Conversation..." screen
-	client.back_button()
 
 	# Open general group chat
 	client.open_group_chat("general@groups."+params["domain"], public=True)
