@@ -22,7 +22,15 @@ tee docker-compose.yml <<EOF
 version: "3.3"
 
 services:
-  snikket_web:
+  snikket_portal:
+    image: ${tf_container_repo}/snikket-web-portal:${tf_version}
+    env_file: snikket.conf
+    network_mode: host
+    volumes:
+      - "/var/lib/snikket:/snikket"
+      - acme_challenges:/var/www/html/.well-known/acme-challenge
+    restart: "unless-stopped"
+  snikket_proxy:
     image: ${tf_container_repo}/snikket-web-proxy:${tf_version}
     env_file: snikket.conf
     network_mode: host
