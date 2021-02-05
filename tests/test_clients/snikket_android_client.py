@@ -99,6 +99,14 @@ class SnikketAndroidClient(AndroidClient):
 		self.type("jid", jid)
 		self.tap("android:id/button1")
 
+	def create_contact(self, jid):
+		self.logger.debug("Creating contact %s", jid)
+		self.tap("fab")
+		self.tap("speed_dial")
+		self.tap("create_contact")
+		self.type("jid", jid)
+		self.tap("android:id/button1")
+
 	def wait_for_message(self, contact_username):
 		self.logger.debug("Waiting for message from %s", contact_username)
 		self.wait(160).until(expect.text_to_be_present_in_element((By.ID, "org.snikket.android:id/conversation_name"), contact_username))
