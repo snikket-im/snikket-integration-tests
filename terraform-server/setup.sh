@@ -20,6 +20,8 @@ cd /opt/snikket
 
 tee docker-compose.override.yml <<EOF
 ---
+version: "3.3"
+
 services:
   snikket_portal:
     image: ${tf_container_repo}/snikket-web-portal:${tf_version}
@@ -28,7 +30,7 @@ services:
   snikket_certs:
     image: ${tf_container_repo}/snikket-cert-manager:${tf_version}
   snikket_server:
-    image: ${tf_container_repo}/snikket:${tf_version}
+    image: ${tf_container_repo}/snikket-server:${tf_version}
 EOF
 
 tee snikket.conf <<EOF
@@ -77,8 +79,8 @@ if ! host "$DOMAIN"; then
 	done
 fi
 
-docker-compose up -d
+docker-compose -f docker-compose.base.yml -f docker-compose.override.yml up -d
 
 # Generate invite API key and publish it at the SECRET location
-API_KEY=$(docker exec -i snikket bash -c "prosodyctl mod_invites_api $DOMAIN create")
+API_KEY=$(docker exec -i snikket bash -c "prosodyctl mod_invites_api create $DOMAIN")
 echo "$API_KEY" | docker exec -i snikket-proxy bash -c "cat > /var/www/html/static/api-key-$CONFIG_SECRET"
