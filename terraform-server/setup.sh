@@ -14,52 +14,21 @@ fi
 curl -L "https://github.com/docker/compose/releases/download/1.25.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod a+x /usr/local/bin/docker-compose
 
-mkdir /etc/snikket
-cd /etc/snikket
+git clone https://github.com/snikket-im/snikket-selfhosted /opt/snikket
 
-tee docker-compose.yml <<EOF
+cd /opt/snikket
+
+tee docker-compose.override.yml <<EOF
 ---
-version: "3.3"
-
 services:
   snikket_portal:
-    container_name: snikket-portal
     image: ${tf_container_repo}/snikket-web-portal:${tf_version}
-    env_file: snikket.conf
-    network_mode: host
-    volumes:
-      - "/var/lib/snikket:/snikket"
-      - acme_challenges:/var/www/html/.well-known/acme-challenge
-    restart: "unless-stopped"
   snikket_proxy:
-    container_name: snikket-proxy
     image: ${tf_container_repo}/snikket-web-proxy:${tf_version}
-    env_file: snikket.conf
-    network_mode: host
-    volumes:
-      - "/var/lib/snikket:/snikket"
-      - acme_challenges:/var/www/html/.well-known/acme-challenge
-    restart: "unless-stopped"
   snikket_certs:
-    container_name: snikket-certs
     image: ${tf_container_repo}/snikket-cert-manager:${tf_version}
-    env_file: snikket.conf
-    volumes:
-      - "/var/lib/snikket:/snikket"
-      - acme_challenges:/var/www/.well-known/acme-challenge
-    restart: "unless-stopped"
   snikket_server:
-    container_name: snikket
     image: ${tf_container_repo}/snikket:${tf_version}
-    network_mode: host
-    volumes:
-      - "/var/lib/snikket:/snikket"
-    env_file: snikket.conf
-    restart: "unless-stopped"
-
-volumes:
-  acme_challenges:
-
 EOF
 
 tee snikket.conf <<EOF

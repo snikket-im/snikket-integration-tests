@@ -74,6 +74,8 @@ packages:
   - containerd.io
   - lua5.3
   - awscli
+  - git
+  - pwgen
 
 # Capture all subprocess output into a logfile
 # Useful for troubleshooting cloud-init issues
